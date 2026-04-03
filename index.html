@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>廃棄・販売ダッシュボード</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 20px;
+    }
+    h1 { text-align: center; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .card h2 { margin: 0; font-size: 18px; }
+    .card p {
+      font-size: 28px;
+      font-weight: bold;
+      margin: 10px 0 0;
+    }
+    table {
+      width: 100%;
+      background: white;
+      border-collapse: collapse;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background: #2c3e50;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<h1>廃棄・販売分析ダッシュボード</h1>
+
+<!-- KPI CARDS -->
+<div class="cards">
+  <div class="card">
+    <h2>販売率</h2>
+    <p>92.3%</p>
+  </div>
+  <div class="card">
+    <h2>廃棄率</h2>
+    <p>7.7%</p>
+  </div>
+  <div class="card">
+    <h2>合計販売高</h2>
+    <p>¥1,234,567</p>
+  </div>
+  <div class="card">
+    <h2>合計廃棄高</h2>
+    <p>¥123,456</p>
+  </div>
+</div>
+
+<!-- TOP 5 WASTE RANKING -->
+<h2>TOP5 廃棄高ランキング</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>順位</th>
+      <th>商品名</th>
+      <th>廃棄高（¥）</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>新宿中村屋監修 カツカレー</td>
+      <td>¥5,160</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>海鮮かき揚げ丼</td>
+      <td>¥3,288</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>焼きさば＆鶏から弁当</td>
+      <td>¥2,992</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>チキンカツ弁当</td>
+      <td>¥2,194</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>三元豚ロースカツ弁当</td>
+      <td>¥1,936</td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

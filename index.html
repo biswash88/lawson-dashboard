@@ -11,18 +11,18 @@
     <style>
       :root {
         color-scheme: light;
-        --bg: #edf5ff;
+        --bg: #e7f0fb;
         --panel: #ffffff;
-        --text: #1c2534;
-        --muted: #657386;
-        --line: #dce3ee;
+        --text: #111827;
+        --muted: #475569;
+        --line: #c6d1df;
         --primary: #2176ff;
         --primary-dark: #1558c8;
         --danger: #d92d20;
         --purple: #7d4cc2;
         --success: #12805c;
         --warning: #b35a00;
-        --shadow: 0 18px 50px rgba(24, 38, 62, 0.12);
+        --shadow: 0 18px 50px rgba(24, 38, 62, 0.18);
       }
 
       * {
@@ -33,7 +33,7 @@
         margin: 0;
         min-height: 100vh;
         background:
-          linear-gradient(135deg, rgba(33, 118, 255, 0.1), transparent 34%),
+          linear-gradient(135deg, rgba(33, 118, 255, 0.16), transparent 34%),
           var(--bg);
         color: var(--text);
         font-family:
@@ -136,9 +136,9 @@
         align-items: center;
         margin-bottom: 12px;
         padding: 8px;
-        border: 1px solid rgba(18, 128, 92, 0.18);
+        border: 1px solid rgba(18, 128, 92, 0.36);
         border-radius: 8px;
-        background: rgba(18, 128, 92, 0.05);
+        background: rgba(18, 128, 92, 0.12);
       }
 
       .support-toggle.is-visible {
@@ -157,7 +157,7 @@
         min-height: 38px;
         border: 1px solid var(--line);
         border-radius: 8px;
-        background: #fbfcff;
+        background: #f7faff;
         color: var(--text);
         font: inherit;
         font-size: 0.78rem;
@@ -186,7 +186,7 @@
       .solve-button.is-active,
       .support-button.is-active {
         border-color: var(--success);
-        background: rgba(18, 128, 92, 0.1);
+        background: rgba(18, 128, 92, 0.18);
         color: var(--success);
       }
 
@@ -203,10 +203,10 @@
         margin-bottom: 12px;
         padding: 12px;
         overflow: hidden;
-        border: 1px solid rgba(18, 128, 92, 0.28);
+        border: 1px solid rgba(18, 128, 92, 0.46);
         border-radius: 8px;
         background:
-          linear-gradient(135deg, rgba(18, 128, 92, 0.13), rgba(33, 118, 255, 0.08)),
+          linear-gradient(135deg, rgba(18, 128, 92, 0.22), rgba(33, 118, 255, 0.14)),
           #ffffff;
       }
 
@@ -242,7 +242,7 @@
         max-width: 52%;
         padding: 4px 8px;
         border-radius: 8px;
-        background: rgba(33, 118, 255, 0.1);
+        background: rgba(33, 118, 255, 0.18);
         color: var(--primary-dark);
         font-size: 0.78rem;
         font-weight: 900;
@@ -259,7 +259,7 @@
 
       .field-profit-target .live-value {
         background: #ffffff;
-        box-shadow: 0 8px 20px rgba(18, 128, 92, 0.12);
+        box-shadow: 0 8px 20px rgba(18, 128, 92, 0.2);
       }
 
       .field-waste label,
@@ -269,7 +269,7 @@
       }
 
       .field-waste .live-value {
-        background: rgba(217, 45, 32, 0.1);
+        background: rgba(217, 45, 32, 0.18);
       }
 
       .field-discount label,
@@ -279,7 +279,7 @@
       }
 
       .field-discount .live-value {
-        background: rgba(125, 76, 194, 0.11);
+        background: rgba(125, 76, 194, 0.2);
       }
 
       .field-days label,
@@ -299,7 +299,7 @@
         border: 1px solid var(--line);
         border-radius: 8px;
         color: var(--text);
-        background: #fbfcff;
+        background: #f8fbff;
         font-size: 1rem;
         font-weight: 700;
         outline: none;
@@ -316,13 +316,13 @@
       }
 
       input:disabled {
-        opacity: 0.62;
+        opacity: 0.86;
         cursor: not-allowed;
-        background: #eef3f8;
+        background: #eef4fb;
       }
 
       .field.is-locked {
-        opacity: 0.76;
+        opacity: 0.9;
       }
 
       input[type="range"] {
@@ -363,7 +363,7 @@
       .rate-control {
         margin-top: 6px;
         padding: 8px;
-        border: 1px solid rgba(101, 115, 134, 0.16);
+        border: 1px solid rgba(71, 85, 105, 0.28);
         border-radius: 8px;
         background: #ffffff;
       }
@@ -385,19 +385,19 @@
       .rate-value {
         padding: 4px 8px;
         border-radius: 8px;
-        background: rgba(101, 115, 134, 0.12);
+        background: rgba(71, 85, 105, 0.18);
         color: var(--text);
         font-size: 0.82rem;
         font-weight: 900;
       }
 
       .field-waste .rate-value {
-        background: rgba(217, 45, 32, 0.1);
+        background: rgba(217, 45, 32, 0.18);
         color: var(--danger);
       }
 
       .field-discount .rate-value {
-        background: rgba(125, 76, 194, 0.11);
+        background: rgba(125, 76, 194, 0.2);
         color: var(--purple);
       }
 
@@ -415,7 +415,7 @@
       .result {
         padding: 18px;
         border-bottom: 1px solid var(--line);
-        background: linear-gradient(135deg, rgba(18, 128, 92, 0.1), rgba(33, 118, 255, 0.09));
+        background: linear-gradient(135deg, rgba(18, 128, 92, 0.2), rgba(33, 118, 255, 0.16));
       }
 
       .result-label {
@@ -442,9 +442,9 @@
 
       .metric {
         padding: 9px;
-        border: 1px solid rgba(101, 115, 134, 0.18);
+        border: 1px solid rgba(71, 85, 105, 0.3);
         border-radius: 8px;
-        background: rgba(255, 255, 255, 0.68);
+        background: rgba(255, 255, 255, 0.94);
       }
 
       .metric.is-hidden {
@@ -485,7 +485,7 @@
         height: 9px;
         overflow: hidden;
         border-radius: 999px;
-        background: rgba(101, 115, 134, 0.16);
+        background: rgba(71, 85, 105, 0.26);
       }
 
       .impact-fill {
@@ -516,9 +516,9 @@
         align-items: center;
         margin-top: 12px;
         padding: 12px;
-        border: 1px solid rgba(18, 128, 92, 0.2);
+        border: 1px solid rgba(18, 128, 92, 0.4);
         border-radius: 8px;
-        background: rgba(18, 128, 92, 0.08);
+        background: rgba(18, 128, 92, 0.16);
       }
 
       .target-summary span {
@@ -572,7 +572,7 @@
         padding: 0 10px;
         border: 1px solid var(--line);
         border-radius: 8px;
-        background: #fbfcff;
+        background: #f8fbff;
         color: var(--text);
         font: inherit;
         font-size: 0.78rem;
@@ -584,7 +584,7 @@
       .graph-button:hover,
       .graph-button:focus-visible {
         border-color: var(--primary);
-        background: rgba(33, 118, 255, 0.1);
+        background: rgba(33, 118, 255, 0.18);
         color: var(--primary-dark);
         outline: none;
       }
@@ -673,6 +673,10 @@
       @media (max-width: 520px) {
         body {
           overflow-x: hidden;
+          background:
+            linear-gradient(135deg, rgba(33, 118, 255, 0.16), transparent 34%),
+            var(--bg);
+          color: var(--text);
         }
 
         main {
@@ -704,8 +708,10 @@
         }
 
         .panel {
+          background: var(--panel);
+          border-color: var(--line);
           border-radius: 20px;
-          box-shadow: 0 16px 40px rgba(24, 38, 62, 0.14);
+          box-shadow: 0 16px 40px rgba(24, 38, 62, 0.2);
         }
 
         .result-panel {
@@ -717,6 +723,7 @@
         .inputs {
           height: 100%;
           padding: 6px;
+          background: var(--panel);
           overflow-y: auto;
           overscroll-behavior: contain;
           scrollbar-width: thin;
@@ -733,9 +740,21 @@
         .support-button {
           min-height: 22px;
           padding: 0 2px;
+          border-color: var(--line);
           border-radius: 12px;
+          background: #f8fbff;
+          color: var(--text);
           font-size: 0.48rem;
           line-height: 1.1;
+        }
+
+        .mode-button.is-active,
+        .solve-button.is-active,
+        .support-button.is-active {
+          border-color: var(--success);
+          background: rgba(18, 128, 92, 0.18);
+          color: var(--success);
+          box-shadow: 0 8px 18px rgba(18, 128, 92, 0.22);
         }
 
         .toggle-caption {
@@ -748,15 +767,25 @@
         }
 
         .support-toggle {
-          grid-template-columns: repeat(4, minmax(0, 1fr));
+          grid-template-columns: 30px repeat(3, minmax(0, 1fr));
           gap: 3px;
           margin-bottom: 5px;
-          padding: 4px;
-          border-radius: 14px;
+          padding: 5px;
+          border-color: rgba(18, 128, 92, 0.36);
+          border-radius: 16px;
+          background: rgba(18, 128, 92, 0.12);
         }
 
         .support-label {
-          font-size: 0.5rem;
+          color: var(--muted);
+          font-size: 0.46rem;
+          line-height: 1.05;
+          text-align: center;
+          word-break: keep-all;
+        }
+
+        .support-label::after {
+          content: "";
         }
 
         .field {
@@ -767,6 +796,9 @@
           margin-bottom: 6px;
           padding: 8px;
           border-radius: 20px;
+          background:
+            linear-gradient(135deg, rgba(18, 128, 92, 0.22), rgba(33, 118, 255, 0.14)),
+            #ffffff;
         }
 
         .field-profit-target::before {
@@ -785,6 +817,25 @@
         label,
         .rate-head span:first-child {
           font-size: 0.54rem;
+          color: var(--text);
+        }
+
+        .field-profit-target label,
+        .field-profit-target .unit,
+        .field-profit-target .live-value {
+          color: var(--success);
+        }
+
+        .field-waste label,
+        .field-waste .unit,
+        .field-waste .live-value {
+          color: var(--danger);
+        }
+
+        .field-discount label,
+        .field-discount .unit,
+        .field-discount .live-value {
+          color: var(--purple);
         }
 
         .live-value,
@@ -798,7 +849,10 @@
         input {
           height: 28px;
           padding: 0 24px 0 6px;
+          border-color: var(--line);
           border-radius: 12px;
+          background: #f8fbff;
+          color: var(--text);
           font-size: 0.68rem;
         }
 
@@ -818,7 +872,7 @@
         input[type="range"]::-webkit-slider-runnable-track {
           height: 13px;
           border-radius: 999px;
-          background: rgba(101, 115, 134, 0.18);
+          background: rgba(71, 85, 105, 0.3);
         }
 
         input[type="range"]::-webkit-slider-thumb {
@@ -836,7 +890,7 @@
         input[type="range"]::-moz-range-track {
           height: 13px;
           border-radius: 999px;
-          background: rgba(101, 115, 134, 0.18);
+          background: rgba(71, 85, 105, 0.3);
         }
 
         input[type="range"]::-moz-range-thumb {
@@ -883,18 +937,22 @@
 
         .result {
           padding: 12px 12px 10px;
+          background: linear-gradient(135deg, rgba(18, 128, 92, 0.2), rgba(33, 118, 255, 0.16));
+          border-bottom-color: var(--line);
         }
 
         .result-label {
           margin-bottom: 3px;
+          color: var(--muted);
           font-size: 0.7rem;
           letter-spacing: 0;
         }
 
         .result-value {
-          font-size: clamp(3rem, 13vw, 3.75rem);
+          font-size: clamp(2.35rem, 10.5vw, 3.25rem);
           font-weight: 950;
           line-height: 0.92;
+          white-space: nowrap;
         }
 
         .breakdown {
@@ -905,6 +963,8 @@
 
         .metric {
           padding: 6px;
+          background: rgba(255, 255, 255, 0.94);
+          border-color: rgba(71, 85, 105, 0.3);
           border-radius: 14px;
         }
 
@@ -915,7 +975,8 @@
 
         .metric strong,
         .target-summary strong {
-          font-size: 0.74rem;
+          font-size: 0.7rem;
+          white-space: nowrap;
         }
 
         .impact-panel {
@@ -926,6 +987,7 @@
         .impact-row {
           grid-template-columns: 45px 1fr 28px;
           gap: 4px;
+          color: var(--muted);
           font-size: 0.54rem;
         }
 
@@ -942,7 +1004,13 @@
           gap: 4px;
           margin-top: 5px;
           padding: 7px;
+          background: rgba(18, 128, 92, 0.16);
+          border-color: rgba(18, 128, 92, 0.4);
           border-radius: 16px;
+        }
+
+        #targetStatus {
+          white-space: nowrap;
         }
 
         .chart-area {
@@ -950,7 +1018,8 @@
           display: flex;
           flex-direction: column;
           min-height: 0;
-          padding: 8px;
+          padding: 6px;
+          background: #fbfcff;
         }
 
         .chart-title {
@@ -980,7 +1049,7 @@
 
         .chart-box {
           flex: 1;
-          min-height: clamp(360px, 58svh, 480px);
+          min-height: clamp(390px, 63svh, 520px);
           height: auto;
         }
 
@@ -1021,7 +1090,7 @@
             </div>
 
             <div class="support-toggle" id="supportToggle" aria-label="厨房支援率">
-              <span class="support-label">対象支援</span>
+              <span class="support-label">対象<br />支援</span>
               <button class="support-button" type="button" data-support-rate="7">7%</button>
               <button class="support-button" type="button" data-support-rate="8">8%</button>
               <button class="support-button" type="button" data-support-rate="10">10%</button>
@@ -1179,7 +1248,7 @@
           <section class="panel result-panel">
             <div class="result">
               <p class="result-label" id="resultLabel">PL</p>
-              <p class="result-value" id="grossProfit">PL：-</p>
+              <p class="result-value" id="grossProfit">-</p>
 
               <div class="breakdown" aria-label="計算内訳">
                 <div class="metric">
@@ -1313,7 +1382,7 @@
           ctx.save();
           ctx.setLineDash([6, 6]);
           ctx.lineWidth = getChartVisuals().guideLineWidth;
-          ctx.strokeStyle = "rgba(17, 24, 39, 0.7)";
+          ctx.strokeStyle = "rgba(17, 24, 39, 0.82)";
           ctx.beginPath();
           ctx.moveTo(pointX, pointY);
           ctx.lineTo(pointX, originY);
@@ -1357,6 +1426,22 @@
         return `${yenFormatter.format(Math.round(value))}円`;
       }
 
+      function formatCompactYen(value) {
+        const rounded = Math.round(value);
+        const sign = rounded < 0 ? "-" : "";
+        const absolute = Math.abs(rounded);
+
+        if (absolute >= 10000) {
+          return `${sign}${Number((absolute / 10000).toFixed(1)).toString()}万`;
+        }
+
+        if (absolute >= 1000) {
+          return `${sign}${Number((absolute / 1000).toFixed(1)).toString()}千`;
+        }
+
+        return `${sign}${yenFormatter.format(absolute)}`;
+      }
+
       function formatPercent(value) {
         return `${Number(value).toFixed(1).replace(/\.0$/, "")}%`;
       }
@@ -1381,8 +1466,8 @@
           badgeHeight: mobile ? 24 : 15,
           badgePaddingX: mobile ? 8 : 4,
           badgePaddingY: mobile ? 4 : 2,
-          mainLineWidth: mobile ? 2.4 : 1.5,
-          guideLineWidth: mobile ? 2.4 : 2.2
+          mainLineWidth: mobile ? 2.9 : 2,
+          guideLineWidth: mobile ? 2.8 : 2.4
         };
       }
 
@@ -1753,7 +1838,7 @@
         const isReverseMode = isReverseSolveMode();
         const isSalesMode = solveMode === "sales";
         const resultName = isReverseMode ? "作成高" : "PL";
-        const resultLabel = isReverseMode ? "必要な作成高" : "今日の予想利益";
+        const resultLabel = isReverseMode ? "必要な作成高" : "PL";
         const displayedResult = (isReverseMode ? result.requiredSales : result.pl) * result.targetDays;
 
         resultLabelOutput.textContent = resultLabel;
@@ -1806,7 +1891,7 @@
         const isReverseMode = isReverseSolveMode();
         const isSalesMode = solveMode === "sales";
         const resultName = isReverseMode ? "作成高" : "PL";
-        const resultLabel = isReverseMode ? "必要な作成高" : "今日の予想利益";
+        const resultLabel = isReverseMode ? "必要な作成高" : "PL";
 
         resultLabelOutput.textContent = resultLabel;
         grossProfitOutput.textContent = isReverseMode ? `${resultName}：-` : "-";
@@ -1950,7 +2035,7 @@
                 label: "PLライン",
                 data: projection.base,
                 borderColor: "#12805c",
-                backgroundColor: "rgba(18, 128, 92, 0.12)",
+                backgroundColor: "rgba(18, 128, 92, 0.2)",
                 borderWidth: chartVisuals.mainLineWidth,
                 pointRadius: 2,
                 pointHoverRadius: 4,
@@ -1960,9 +2045,9 @@
               {
                 label: "値引きなしの場合",
                 data: projection.noDiscountPattern,
-                borderColor: "rgba(125, 76, 194, 0.5)",
-                backgroundColor: "rgba(125, 76, 194, 0.08)",
-                borderWidth: 1,
+                borderColor: "rgba(125, 76, 194, 0.7)",
+                backgroundColor: "rgba(125, 76, 194, 0.16)",
+                borderWidth: 1.4,
                 borderDash: [4, 5],
                 pointRadius: 0,
                 pointHoverRadius: 4,
@@ -1972,9 +2057,9 @@
               {
                 label: "廃棄なしの場合",
                 data: projection.noWastePattern,
-                borderColor: "rgba(217, 45, 32, 0.5)",
-                backgroundColor: "rgba(217, 45, 32, 0.08)",
-                borderWidth: 1,
+                borderColor: "rgba(217, 45, 32, 0.7)",
+                backgroundColor: "rgba(217, 45, 32, 0.16)",
+                borderWidth: 1.4,
                 borderDash: [4, 5],
                 pointRadius: 0,
                 pointHoverRadius: 4,
@@ -2018,7 +2103,7 @@
                     size: chartVisuals.legendFontSize,
                     weight: "900"
                   },
-                  color: "#1c2534",
+                  color: "#111827",
                   filter: (legendItem, data) => {
                     const dataset = data.datasets[legendItem.datasetIndex];
                     return Array.isArray(dataset.data) && dataset.data.length > 0;
@@ -2045,18 +2130,18 @@
                     size: chartVisuals.axisTitleSize,
                     weight: "900"
                   },
-                  color: "#1c2534"
+                  color: "#111827"
                 },
                 ticks: {
                   font: {
                     size: chartVisuals.axisTickSize,
                     weight: "900"
                   },
-                  color: "#1c2534",
-                  callback: (value) => `${yenFormatter.format(value)}円`
+                  color: "#111827",
+                  callback: (value) => formatCompactYen(value)
                 },
                 grid: {
-                  color: "rgba(101, 115, 134, 0.12)"
+                  color: "rgba(71, 85, 105, 0.24)"
                 }
               },
               y: {
@@ -2068,18 +2153,18 @@
                     size: chartVisuals.axisTitleSize,
                     weight: "900"
                   },
-                  color: "#1c2534"
+                  color: "#111827"
                 },
                 ticks: {
                   font: {
                     size: chartVisuals.axisTickSize,
                     weight: "900"
                   },
-                  color: "#1c2534",
-                  callback: (value) => `${yenFormatter.format(value)}円`
+                  color: "#111827",
+                  callback: (value) => formatCompactYen(value)
                 },
                 grid: {
-                  color: "rgba(101, 115, 134, 0.14)"
+                  color: "rgba(71, 85, 105, 0.26)"
                 }
               }
             }

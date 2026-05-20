@@ -1837,14 +1837,16 @@
       function updateOutputs(result) {
         const isReverseMode = isReverseSolveMode();
         const isSalesMode = solveMode === "sales";
-        const resultName = isReverseMode ? "作成高" : "PL";
-        const resultLabel = isReverseMode ? "必要な作成高" : "PL";
+        const resultLabel = isReverseMode
+          ? solveMode === "gross"
+            ? "荒利益高逆算"
+            : "PL逆算"
+          : "PL";
         const displayedResult = (isReverseMode ? result.requiredSales : result.pl) * result.targetDays;
+        const hasTargetDays = hasInputValue(targetDaysInput);
 
         resultLabelOutput.textContent = resultLabel;
-        grossProfitOutput.textContent = isReverseMode
-          ? `${resultName}：${formatYen(displayedResult)}`
-          : formatYen(displayedResult);
+        grossProfitOutput.textContent = isReverseMode ? "" : formatYen(displayedResult);
         baseProfitOutput.textContent = formatYen(result.grossProfitBase * result.targetDays);
         updateKitchenSupportVisibility();
 
@@ -1878,23 +1880,28 @@
         requiredSalesOutput.textContent = isSalesMode
           ? formatYen(result.salesTarget * result.targetDays)
           : formatYen(result.requiredSales * result.targetDays);
-        targetStatus.textContent = isReverseMode
-          ? solveMode === "gross"
-            ? "荒利益高逆算"
-            : "PL逆算"
-          : isSalesMode
-            ? "実績計算"
-            : "自動計算";
+        targetStatus.textContent = !hasTargetDays
+          ? "未入力"
+          : isReverseMode
+            ? solveMode === "gross"
+              ? "荒利益高逆算"
+              : "PL逆算"
+            : isSalesMode
+              ? "実績計算"
+              : "自動計算";
       }
 
       function updateBlankOutputs() {
         const isReverseMode = isReverseSolveMode();
         const isSalesMode = solveMode === "sales";
-        const resultName = isReverseMode ? "作成高" : "PL";
-        const resultLabel = isReverseMode ? "必要な作成高" : "PL";
+        const resultLabel = isReverseMode
+          ? solveMode === "gross"
+            ? "荒利益高逆算"
+            : "PL逆算"
+          : "PL";
 
         resultLabelOutput.textContent = resultLabel;
-        grossProfitOutput.textContent = isReverseMode ? `${resultName}：-` : "-";
+        grossProfitOutput.textContent = isReverseMode ? "" : "-";
         baseProfitOutput.textContent = "-";
         updateKitchenSupportVisibility();
 

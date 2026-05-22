@@ -200,6 +200,35 @@
         box-shadow: 0 10px 24px rgba(17, 24, 39, 0.18);
       }
 
+      .support-toggle .support-button {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        justify-self: center;
+        padding: 0;
+        box-sizing: border-box;
+        border-color: rgba(18, 128, 92, 0.72);
+        border-radius: 999px;
+        background: #ffffff;
+        color: #12805c;
+        font-size: 0.72rem;
+        line-height: 1;
+        letter-spacing: 0;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      .support-toggle .support-button.is-active {
+        border-color: #12805c;
+        background: #12805c;
+        color: #ffffff;
+        box-shadow: 0 10px 22px rgba(18, 128, 92, 0.24);
+      }
+
       .reset-button {
         width: 100%;
         min-height: 36px;
@@ -882,8 +911,8 @@
         }
 
         .support-toggle {
-          grid-template-columns: 30px repeat(3, 30px);
-          gap: 5px;
+          grid-template-columns: 30px repeat(3, 38px);
+          gap: 4px;
           align-items: center;
           justify-content: space-between;
           margin-bottom: 8px;
@@ -906,16 +935,12 @@
         }
 
         .support-toggle .support-button {
-          width: 30px;
-          height: 30px;
-          min-height: 30px;
-          display: grid;
-          place-items: center;
-          padding: 0;
-          border-radius: 999px;
-          font-size: 0.48rem;
+          width: 38px;
+          height: 38px;
+          min-width: 38px;
+          min-height: 38px;
+          font-size: 0.52rem;
           line-height: 1;
-          text-align: center;
         }
 
         .field {
@@ -1593,6 +1618,7 @@
       let kitchenSupportRate = null;
       let activeChartTooltipKey = null;
       let chartTooltipTimer = null;
+      let isChartDetailVisible = false;
       const WASTE_LOSS_RATE = 0.5;
       const DISCOUNT_LOSS_RATE = 0.5;
       const PL_BASE_RATE = 0.5;
@@ -1614,20 +1640,6 @@
           const originX = chartArea.left;
 
           ctx.save();
-          ctx.setLineDash([6, 6]);
-          ctx.lineWidth = getChartVisuals().guideLineWidth;
-          ctx.strokeStyle = "rgba(17, 24, 39, 0.82)";
-          ctx.beginPath();
-          ctx.moveTo(pointX, pointY);
-          ctx.lineTo(pointX, originY);
-          ctx.moveTo(originX, pointY);
-          ctx.lineTo(pointX, pointY);
-          ctx.stroke();
-          ctx.setLineDash([]);
-
-          drawGuideTriangle(ctx, pointX, originY, "up");
-          drawGuideTriangle(ctx, originX, pointY, "right");
-
           ctx.shadowColor = "rgba(17, 24, 39, 0.28)";
           ctx.shadowBlur = 10;
           ctx.shadowOffsetY = 3;
@@ -1641,22 +1653,37 @@
           ctx.arc(pointX, pointY, getChartVisuals().currentPointInnerRadius, 0, Math.PI * 2);
           ctx.fill();
 
-          drawChartBadge(
-            ctx,
-            `${getPrimaryAmountLabel()} ${formatYen(currentPoint.x)}`,
-            pointX - 72,
-            Math.min(originY - 38, chartArea.bottom - 38),
-            "#111827",
-            chartArea
-          );
-          drawChartBadge(
-            ctx,
-            `PL ${formatYen(currentPoint.y)}`,
-            chartArea.left + 8,
-            clamp(pointY - 34, chartArea.top + 8, chartArea.bottom - 38),
-            "#12805c",
-            chartArea
-          );
+          if (isChartDetailVisible) {
+            ctx.setLineDash([6, 6]);
+            ctx.lineWidth = getChartVisuals().guideLineWidth;
+            ctx.strokeStyle = "rgba(17, 24, 39, 0.82)";
+            ctx.beginPath();
+            ctx.moveTo(pointX, pointY);
+            ctx.lineTo(pointX, originY);
+            ctx.moveTo(originX, pointY);
+            ctx.lineTo(pointX, pointY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            drawGuideTriangle(ctx, pointX, originY, "up");
+            drawGuideTriangle(ctx, originX, pointY, "right");
+            drawChartBadge(
+              ctx,
+              `${getPrimaryAmountLabel()} ${formatYen(currentPoint.x)}`,
+              pointX - 72,
+              Math.min(originY - 38, chartArea.bottom - 38),
+              "#111827",
+              chartArea
+            );
+            drawChartBadge(
+              ctx,
+              `PL ${formatYen(currentPoint.y)}`,
+              chartArea.left + 8,
+              clamp(pointY - 34, chartArea.top + 8, chartArea.bottom - 38),
+              "#12805c",
+              chartArea
+            );
+          }
           ctx.restore();
         }
       };
@@ -1710,10 +1737,10 @@
           legendBoxSize: mobile ? 16 : 12,
           axisTitleSize: mobile ? 9 : 8,
           axisTickSize: mobile ? 11 : 7,
-          badgeFontSize: mobile ? 13 : 8,
-          badgeHeight: mobile ? 28 : 17,
-          badgePaddingX: mobile ? 9 : 5,
-          badgePaddingY: mobile ? 4 : 2,
+          badgeFontSize: mobile ? 10 : 7,
+          badgeHeight: mobile ? 23 : 16,
+          badgePaddingX: mobile ? 7 : 5,
+          badgePaddingY: mobile ? 3 : 2,
           mainLineWidth: mobile ? 3.3 : 2.2,
           guideLineWidth: mobile ? 3 : 2.5,
           currentPointOuterRadius: mobile ? 9 : 7,
@@ -1958,7 +1985,7 @@
         salesTargetSlider.setAttribute("aria-label", `${isSalesMode ? "販売高" : "作成高"}スライダー`);
         profitTargetLabel.textContent = getTargetInputLabel();
         profitTargetSlider.setAttribute("aria-label", `${getTargetInputLabel()}スライダー`);
-        chartClickHint.textContent = `クリックで${isSalesMode ? "販売高" : "作成高"}に反映`;
+        chartClickHint.textContent = "タップで詳細表示";
 
         solveButtons.forEach((button) => {
           button.classList.toggle("is-active", button.dataset.solveMode === solveMode);
@@ -2415,6 +2442,7 @@
           options: {
             responsive: true,
             maintainAspectRatio: false,
+            events: [],
             animation: {
               duration: 220
             },
@@ -2440,14 +2468,14 @@
                 enabled: true,
                 displayColors: false,
                 titleFont: {
-                  size: isMobileChart() ? 13 : 12,
+                  size: isMobileChart() ? 11 : 10,
                   weight: "900"
                 },
                 bodyFont: {
-                  size: isMobileChart() ? 13 : 12,
+                  size: isMobileChart() ? 10 : 9,
                   weight: "900"
                 },
-                padding: isMobileChart() ? 10 : 8,
+                padding: isMobileChart() ? 8 : 6,
                 backgroundColor: "rgba(17, 24, 39, 0.92)",
                 callbacks: {
                   title: (items) => items[0]?.dataset?.label || "",
@@ -2583,6 +2611,7 @@
           return;
         }
 
+        isChartDetailVisible = true;
         activeChartTooltipKey = tooltipKey;
         profitChart.setActiveElements([{ datasetIndex, index }]);
         profitChart.tooltip.setActiveElements([{ datasetIndex, index }], {
@@ -2599,6 +2628,7 @@
       }
 
       function clearChartTooltip() {
+        isChartDetailVisible = false;
         activeChartTooltipKey = null;
         window.clearTimeout(chartTooltipTimer);
         chartTooltipTimer = null;

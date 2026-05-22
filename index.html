@@ -594,6 +594,60 @@
         font-size: 0.8rem;
       }
 
+      .chart-expand-button {
+        width: 32px;
+        height: 32px;
+        display: inline-grid;
+        place-items: center;
+        border: 1px solid #b8c3d2;
+        border-radius: 10px;
+        background: #ffffff;
+        color: #111827;
+        font-size: 1rem;
+        font-weight: 950;
+        line-height: 1;
+        cursor: pointer;
+        box-shadow: 0 8px 18px rgba(24, 38, 62, 0.1);
+      }
+
+      .chart-expand-button:hover,
+      .chart-expand-button:focus-visible {
+        border-color: #111827;
+        background: #111827;
+        color: #ffffff;
+        outline: none;
+      }
+
+      body.graph-expanded {
+        overflow: hidden;
+      }
+
+      .chart-area.is-expanded {
+        position: fixed;
+        inset: 10px;
+        z-index: 50;
+        height: calc(100svh - 20px);
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        padding: 14px;
+        border: 1px solid #b8c3d2;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 24px 70px rgba(17, 24, 39, 0.28);
+      }
+
+      .chart-area.is-expanded .chart-box {
+        flex: 1;
+        height: auto;
+        min-height: 0;
+      }
+
+      .chart-area.is-expanded .chart-expand-button {
+        background: #111827;
+        color: #ffffff;
+      }
+
       .graph-controls {
         display: flex;
         flex-wrap: wrap;
@@ -1131,6 +1185,13 @@
           display: none;
         }
 
+        .chart-expand-button {
+          width: 28px;
+          height: 28px;
+          border-radius: 10px;
+          font-size: 0.9rem;
+        }
+
         .graph-controls {
           gap: 3px;
           margin-bottom: 3px;
@@ -1144,9 +1205,9 @@
         }
 
         .chart-legend {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 5px;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 5px 7px;
           margin: 4px 0 6px;
           padding: 7px;
           border: 1px solid #c6d1df;
@@ -1158,19 +1219,19 @@
         .chart-legend-item {
           display: flex;
           align-items: center;
-          gap: 7px;
+          gap: 4px;
           min-width: 0;
           color: #111827;
-          font-size: 0.72rem;
+          font-size: 0.62rem;
           font-weight: 950;
           line-height: 1.1;
-          white-space: normal;
+          white-space: nowrap;
         }
 
         .chart-legend-marker {
-          width: 12px;
-          height: 12px;
-          flex: 0 0 12px;
+          width: 9px;
+          height: 9px;
+          flex: 0 0 9px;
           border: 2px solid currentColor;
           border-radius: 999px;
           background: currentColor;
@@ -1422,6 +1483,15 @@
               <div class="chart-title">
                 <h2>線形予測グラフ</h2>
                 <p id="chartClickHint">クリックで作成高に反映</p>
+                <button
+                  class="chart-expand-button"
+                  id="chartExpandButton"
+                  type="button"
+                  aria-label="グラフを拡大"
+                  title="グラフを拡大"
+                >
+                  ⛶
+                </button>
               </div>
               <div class="graph-controls" aria-label="グラフ表示範囲">
                 <button class="graph-button" type="button" data-graph-range="1.5">1.5倍</button>
@@ -1478,6 +1548,8 @@
       const chartCanvas = document.getElementById("profitChart");
       const chartLegend = document.getElementById("chartLegend");
       const chartClickHint = document.getElementById("chartClickHint");
+      const chartArea = document.querySelector(".chart-area");
+      const chartExpandButton = document.getElementById("chartExpandButton");
       const supportToggle = document.getElementById("supportToggle");
       const resetButton = document.getElementById("resetButton");
       const graphRangeButtons = document.querySelectorAll(".graph-button");
@@ -1641,6 +1713,12 @@
         }
 
         const order = ["PLライン", "廃棄なしの場合", "値引きなしの場合", "現在値"];
+        const shortLabels = {
+          "PLライン": "PL",
+          "廃棄なしの場合": "廃棄無し",
+          "値引きなしの場合": "値引無し",
+          "現在値": "現在値"
+        };
         const datasets = profitChart.data.datasets
           .filter((dataset) => Array.isArray(dataset.data) && dataset.data.length > 0)
           .filter((dataset) => order.includes(dataset.label))
@@ -1649,9 +1727,22 @@
         chartLegend.innerHTML = datasets
           .map((dataset) => {
             const color = getLegendColor(dataset);
-            return `<div class="chart-legend-item" style="color: ${color}"><span class="chart-legend-marker"></span><span>${dataset.label}</span></div>`;
+            return `<div class="chart-legend-item" style="color: ${color}"><span class="chart-legend-marker"></span><span>${shortLabels[dataset.label] || dataset.label}</span></div>`;
           })
           .join("");
+      }
+
+      function toggleChartExpanded() {
+        const isExpanded = chartArea.classList.toggle("is-expanded");
+        document.body.classList.toggle("graph-expanded", isExpanded);
+        chartExpandButton.textContent = isExpanded ? "×" : "⛶";
+        chartExpandButton.setAttribute("aria-label", isExpanded ? "グラフを閉じる" : "グラフを拡大");
+        chartExpandButton.setAttribute("title", isExpanded ? "グラフを閉じる" : "グラフを拡大");
+
+        requestAnimationFrame(() => {
+          profitChart?.resize();
+          profitChart?.update();
+        });
       }
 
       function drawGuideTriangle(ctx, x, y, direction) {
@@ -2480,6 +2571,7 @@
       targetDaysInput.addEventListener("input", refreshCalculator);
 
       resetButton.addEventListener("click", clearCalculatorInputs);
+      chartExpandButton.addEventListener("click", toggleChartExpanded);
 
       wasteRateSlider.addEventListener("input", () => {
         syncRateToAmount(wasteRateSlider, wasteAmountInput, wasteAmountSlider);

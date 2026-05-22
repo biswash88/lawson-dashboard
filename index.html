@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>荒利益高計算機</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="calculator-icon-192.png">
+    <meta name="theme-color" content="#111111">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7JB9CFGC2X"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -1573,6 +1576,8 @@
       let currentMode = "ff";
       let solveMode = "creation";
       let kitchenSupportRate = null;
+      let activeChartTooltipKey = null;
+      let chartTooltipTimer = null;
       const WASTE_LOSS_RATE = 0.5;
       const DISCOUNT_LOSS_RATE = 0.5;
       const PL_BASE_RATE = 0.5;
@@ -2545,15 +2550,50 @@
         );
 
         if (!elements.length) {
+          clearChartTooltip();
           return;
         }
 
         const { datasetIndex, index } = elements[0];
+        const dataset = profitChart.data.datasets[datasetIndex];
+
+        if (dataset?.label === "現在値") {
+          clearChartTooltip();
+          return;
+        }
+
+        const tooltipKey = `${datasetIndex}:${index}`;
+        if (activeChartTooltipKey === tooltipKey) {
+          clearChartTooltip();
+          return;
+        }
+
+        activeChartTooltipKey = tooltipKey;
         profitChart.setActiveElements([{ datasetIndex, index }]);
         profitChart.tooltip.setActiveElements([{ datasetIndex, index }], {
           x: event.offsetX,
           y: event.offsetY
         });
+        profitChart.update();
+        scheduleChartTooltipClear();
+      }
+
+      function scheduleChartTooltipClear() {
+        window.clearTimeout(chartTooltipTimer);
+        chartTooltipTimer = window.setTimeout(clearChartTooltip, 10000);
+      }
+
+      function clearChartTooltip() {
+        activeChartTooltipKey = null;
+        window.clearTimeout(chartTooltipTimer);
+        chartTooltipTimer = null;
+
+        if (!profitChart) {
+          return;
+        }
+
+        profitChart.setActiveElements([]);
+        profitChart.tooltip.setActiveElements([], { x: 0, y: 0 });
         profitChart.update();
       }
 
@@ -2572,6 +2612,7 @@
         discountRateSlider.value = "0";
         kitchenSupportRate = null;
         supportButtons.forEach((button) => button.classList.remove("is-active"));
+        clearChartTooltip();
         refreshCalculator();
       }
 

@@ -882,8 +882,10 @@
         }
 
         .support-toggle {
-          grid-template-columns: 30px repeat(3, minmax(0, 1fr));
+          grid-template-columns: 30px repeat(3, 30px);
           gap: 5px;
+          align-items: center;
+          justify-content: space-between;
           margin-bottom: 8px;
           padding: 6px;
           border-color: rgba(18, 128, 92, 0.46);
@@ -901,6 +903,19 @@
 
         .support-label::after {
           content: "";
+        }
+
+        .support-toggle .support-button {
+          width: 30px;
+          height: 30px;
+          min-height: 30px;
+          display: grid;
+          place-items: center;
+          padding: 0;
+          border-radius: 999px;
+          font-size: 0.48rem;
+          line-height: 1;
+          text-align: center;
         }
 
         .field {
@@ -2580,7 +2595,7 @@
 
       function scheduleChartTooltipClear() {
         window.clearTimeout(chartTooltipTimer);
-        chartTooltipTimer = window.setTimeout(clearChartTooltip, 10000);
+        chartTooltipTimer = window.setTimeout(clearChartTooltip, 3000);
       }
 
       function clearChartTooltip() {
@@ -2709,15 +2724,6 @@
           return;
         }
 
-        const salesValue = profitChart.scales.x.getValueForPixel(event.offsetX);
-        const roundedSales = Math.max(0, Math.round(salesValue / 100) * 100);
-        if (isReverseSolveMode()) {
-          setSolveMode("creation", false);
-        }
-        setInputPair(salesTargetInput, salesTargetSlider, roundedSales);
-        syncAmountToRate(wasteAmountInput, wasteRateSlider);
-        syncAmountToRate(discountAmountInput, discountRateSlider);
-        refreshCalculator();
         showChartTooltipAtEvent(event);
       });
 

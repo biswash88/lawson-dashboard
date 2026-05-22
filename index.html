@@ -628,6 +628,10 @@
         height: 480px;
       }
 
+      .chart-legend {
+        display: none;
+      }
+
       .scenario-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -899,6 +903,29 @@
           background: rgba(33, 118, 255, 0.2);
         }
 
+        .field-sales input,
+        .field-profit-target input,
+        .field-waste input,
+        .field-discount input {
+          padding: 0 20px;
+          text-align: center;
+          font-size: var(--amount-font-size, 0.74rem);
+        }
+
+        .field-sales input.is-long-number,
+        .field-profit-target input.is-long-number,
+        .field-waste input.is-long-number,
+        .field-discount input.is-long-number {
+          --amount-font-size: 0.64rem;
+        }
+
+        .field-sales input.is-extra-long-number,
+        .field-profit-target input.is-extra-long-number,
+        .field-waste input.is-extra-long-number,
+        .field-discount input.is-extra-long-number {
+          --amount-font-size: 0.58rem;
+        }
+
         input {
           height: 30px;
           padding: 0 24px 0 8px;
@@ -913,7 +940,8 @@
 
         .unit {
           right: 6px;
-          font-size: 0.62rem;
+          font-size: 0.5rem;
+          font-weight: 950;
         }
 
         input[type="range"] {
@@ -1115,6 +1143,39 @@
           font-size: 0.56rem;
         }
 
+        .chart-legend {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 5px;
+          margin: 4px 0 6px;
+          padding: 7px;
+          border: 1px solid #c6d1df;
+          border-radius: 14px;
+          background: #ffffff;
+          box-shadow: 0 8px 18px rgba(24, 38, 62, 0.08);
+        }
+
+        .chart-legend-item {
+          display: flex;
+          align-items: center;
+          gap: 7px;
+          min-width: 0;
+          color: #111827;
+          font-size: 0.72rem;
+          font-weight: 950;
+          line-height: 1.1;
+          white-space: normal;
+        }
+
+        .chart-legend-marker {
+          width: 12px;
+          height: 12px;
+          flex: 0 0 12px;
+          border: 2px solid currentColor;
+          border-radius: 999px;
+          background: currentColor;
+        }
+
         .chart-box {
           flex: 1;
           min-height: clamp(390px, 63svh, 520px);
@@ -1224,8 +1285,8 @@
                   id="salesTarget"
                   type="number"
                   min="0"
-                  max="99999"
-                  data-fixed-max="99999"
+                  max="999999"
+                  data-fixed-max="999999"
                   inputmode="numeric"
                 />
                 <span class="unit">円</span>
@@ -1234,8 +1295,8 @@
                 id="salesTargetSlider"
                 type="range"
                 min="0"
-                max="99999"
-                data-fixed-max="99999"
+                max="999999"
+                data-fixed-max="999999"
                 step="100"
                 value="0"
                 aria-label="作成高スライダー"
@@ -1368,6 +1429,7 @@
                 <button class="graph-button" type="button" data-graph-range="3">3倍</button>
                 <button class="graph-button" type="button" data-graph-range="5">5倍</button>
               </div>
+              <div class="chart-legend" id="chartLegend" aria-label="グラフ凡例"></div>
               <div class="chart-box">
                 <canvas id="profitChart" aria-label="PLグラフ"></canvas>
               </div>
@@ -1414,6 +1476,7 @@
       const targetSummaryLabel = document.getElementById("targetSummaryLabel");
       const targetStatus = document.getElementById("targetStatus");
       const chartCanvas = document.getElementById("profitChart");
+      const chartLegend = document.getElementById("chartLegend");
       const chartClickHint = document.getElementById("chartClickHint");
       const supportToggle = document.getElementById("supportToggle");
       const resetButton = document.getElementById("resetButton");
@@ -1523,6 +1586,11 @@
         return `${sign}${yenFormatter.format(absolute)}`;
       }
 
+      function formatLiveYen(value) {
+        const rounded = Math.round(value);
+        return Math.abs(rounded) >= 10000 ? formatCompactYen(rounded) : formatYen(rounded);
+      }
+
       function formatPercent(value) {
         return `${Number(value).toFixed(1).replace(/\.0$/, "")}%`;
       }
@@ -1552,6 +1620,38 @@
           currentPointOuterRadius: mobile ? 9 : 7,
           currentPointInnerRadius: mobile ? 5.2 : 4
         };
+      }
+
+      function getLegendColor(dataset) {
+        if (dataset.label === "現在値") {
+          return "#111827";
+        }
+        if (dataset.label.includes("廃棄")) {
+          return "#d92d20";
+        }
+        if (dataset.label.includes("値引")) {
+          return "#7d4cc2";
+        }
+        return "#12805c";
+      }
+
+      function renderChartLegend() {
+        if (!profitChart || !chartLegend) {
+          return;
+        }
+
+        const order = ["PLライン", "廃棄なしの場合", "値引きなしの場合", "現在値"];
+        const datasets = profitChart.data.datasets
+          .filter((dataset) => Array.isArray(dataset.data) && dataset.data.length > 0)
+          .filter((dataset) => order.includes(dataset.label))
+          .sort((a, b) => order.indexOf(a.label) - order.indexOf(b.label));
+
+        chartLegend.innerHTML = datasets
+          .map((dataset) => {
+            const color = getLegendColor(dataset);
+            return `<div class="chart-legend-item" style="color: ${color}"><span class="chart-legend-marker"></span><span>${dataset.label}</span></div>`;
+          })
+          .join("");
       }
 
       function drawGuideTriangle(ctx, x, y, direction) {
@@ -1683,15 +1783,28 @@
         }
 
         sliderInput.value = String(value);
+        updateAmountInputClass(numberInput);
       }
 
       function clearInputPair(numberInput, sliderInput) {
         numberInput.value = "";
         sliderInput.value = "0";
+        updateAmountInputClass(numberInput);
       }
 
       function syncSliderToNumber(sliderInput, numberInput) {
         numberInput.value = sliderInput.value;
+        updateAmountInputClass(numberInput);
+      }
+
+      function updateAmountInputClass(input) {
+        const digits = input.value.replace(/\D/g, "").length;
+        input.classList.toggle("is-long-number", digits >= 6);
+        input.classList.toggle("is-extra-long-number", digits >= 7);
+      }
+
+      function updateAmountInputClasses() {
+        [salesTargetInput, wasteAmountInput, discountAmountInput, profitTargetInput].forEach(updateAmountInputClass);
       }
 
       function syncAmountToRate(amountInput, rateSlider) {
@@ -1957,10 +2070,10 @@
           syncNumberToSlider(profitTargetInput, profitTargetSlider);
         }
 
-        salesTargetLive.textContent = formatYen(isReverseMode ? result.requiredSales : result.salesTarget);
-        wasteAmountLive.textContent = formatYen(result.wasteAmount);
-        discountAmountLive.textContent = formatYen(result.discountAmount);
-        profitTargetLive.textContent = formatYen(isReverseMode ? result.profitTarget : result.pl);
+        salesTargetLive.textContent = formatLiveYen(isReverseMode ? result.requiredSales : result.salesTarget);
+        wasteAmountLive.textContent = formatLiveYen(result.wasteAmount);
+        discountAmountLive.textContent = formatLiveYen(result.discountAmount);
+        profitTargetLive.textContent = formatLiveYen(isReverseMode ? result.profitTarget : result.pl);
         targetDaysLive.textContent = hasInputValue(targetDaysInput) ? `${formatYen(result.targetDays).replace("円", "")}日` : "1日";
         wasteRateLive.textContent = formatPercent(wasteRateSlider.value);
         discountRateLive.textContent = formatPercent(discountRateSlider.value);
@@ -1977,6 +2090,7 @@
             : isSalesMode
               ? "実績計算"
               : "自動計算";
+        updateAmountInputClasses();
       }
 
       function updateBlankOutputs() {
@@ -2005,16 +2119,16 @@
         }
 
         salesTargetLive.textContent = hasInputValue(salesTargetInput)
-          ? formatYen(readPositiveNumber(salesTargetInput))
+          ? formatLiveYen(readPositiveNumber(salesTargetInput))
           : "-";
         wasteAmountLive.textContent = hasInputValue(wasteAmountInput)
-          ? formatYen(readPositiveNumber(wasteAmountInput))
+          ? formatLiveYen(readPositiveNumber(wasteAmountInput))
           : "-";
         discountAmountLive.textContent = hasInputValue(discountAmountInput)
-          ? formatYen(readPositiveNumber(discountAmountInput))
+          ? formatLiveYen(readPositiveNumber(discountAmountInput))
           : "-";
         profitTargetLive.textContent = hasInputValue(profitTargetInput)
-          ? formatYen(readPositiveNumber(profitTargetInput))
+          ? formatLiveYen(readPositiveNumber(profitTargetInput))
           : "-";
         targetDaysLive.textContent = hasInputValue(targetDaysInput)
           ? `${formatYen(readTargetDays()).replace("円", "")}日`
@@ -2030,6 +2144,7 @@
         discountImpactBar.style.width = "0%";
         wasteImpactValue.textContent = "-";
         discountImpactValue.textContent = "-";
+        updateAmountInputClasses();
       }
 
       function updateImpactBars(result) {
@@ -2187,7 +2302,7 @@
             },
             plugins: {
               legend: {
-                display: true,
+                display: !isMobileChart(),
                 labels: {
                   boxWidth: chartVisuals.legendBoxSize,
                   boxHeight: chartVisuals.legendBoxSize,
@@ -2258,6 +2373,7 @@
           },
           plugins: [valueGuidePlugin]
         });
+        renderChartLegend();
       }
 
       function refreshCalculator() {
@@ -2278,6 +2394,7 @@
           profitChart.data.datasets[4].data = [];
             profitChart.data.datasets[4].label = getTargetPointLabel();
           profitChart.options.scales.x.title.text = getPrimaryAmountLabel();
+          renderChartLegend();
           profitChart.update();
           }
 
@@ -2296,6 +2413,7 @@
           profitChart.data.datasets[4].data = projection.targetPoint;
           profitChart.data.datasets[4].label = getTargetPointLabel();
           profitChart.options.scales.x.title.text = getPrimaryAmountLabel();
+          renderChartLegend();
           profitChart.update();
         }
       }

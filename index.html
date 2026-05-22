@@ -743,9 +743,11 @@
 
         .panel {
           background: var(--panel);
-          border-color: var(--line);
+          border-color: #b8c5d6;
           border-radius: 20px;
-          box-shadow: 0 16px 40px rgba(24, 38, 62, 0.2);
+          box-shadow:
+            0 18px 42px rgba(24, 38, 62, 0.22),
+            0 1px 0 rgba(255, 255, 255, 0.9) inset;
         }
 
         .result-panel {
@@ -756,8 +758,8 @@
 
         .inputs {
           height: 100%;
-          padding: 6px;
-          background: var(--panel);
+          padding: 8px;
+          background: #f8fafc;
           overflow-y: auto;
           overscroll-behavior: contain;
           scrollbar-width: thin;
@@ -765,21 +767,23 @@
 
         .mode-toggle,
         .solve-toggle {
-          gap: 3px;
-          margin-bottom: 5px;
+          gap: 5px;
+          margin-bottom: 7px;
         }
 
         .mode-button,
         .solve-button,
         .support-button {
           min-height: 22px;
-          padding: 0 2px;
-          border-color: var(--line);
+          padding: 0 3px;
+          border-color: #b9c5d5;
           border-radius: 12px;
-          background: #f8fbff;
+          background: #ffffff;
           color: var(--text);
-          font-size: 0.48rem;
+          font-size: 0.52rem;
+          font-weight: 950;
           line-height: 1.1;
+          box-shadow: 0 4px 12px rgba(24, 38, 62, 0.08);
         }
 
         .mode-button.is-active,
@@ -792,15 +796,18 @@
         }
 
         .reset-button {
-          min-height: 24px;
-          margin-bottom: 6px;
+          min-height: 26px;
+          margin-bottom: 8px;
+          border-color: #b9c5d5;
           border-radius: 12px;
-          font-size: 0.54rem;
+          font-size: 0.58rem;
+          background: #ffffff;
         }
 
         .toggle-caption {
-          margin-bottom: 3px;
-          font-size: 0.54rem;
+          margin-bottom: 4px;
+          font-size: 0.58rem;
+          color: #334155;
         }
 
         .solve-toggle {
@@ -809,17 +816,17 @@
 
         .support-toggle {
           grid-template-columns: 30px repeat(3, minmax(0, 1fr));
-          gap: 3px;
-          margin-bottom: 5px;
-          padding: 5px;
-          border-color: rgba(18, 128, 92, 0.36);
+          gap: 5px;
+          margin-bottom: 8px;
+          padding: 6px;
+          border-color: rgba(18, 128, 92, 0.46);
           border-radius: 16px;
-          background: rgba(18, 128, 92, 0.12);
+          background: rgba(18, 128, 92, 0.16);
         }
 
         .support-label {
-          color: var(--muted);
-          font-size: 0.46rem;
+          color: #334155;
+          font-size: 0.5rem;
           line-height: 1.05;
           text-align: center;
           word-break: keep-all;
@@ -830,16 +837,18 @@
         }
 
         .field {
-          margin-bottom: 5px;
+          margin-bottom: 8px;
         }
 
         .field-profit-target {
-          margin-bottom: 6px;
-          padding: 8px;
+          margin-bottom: 9px;
+          padding: 9px;
+          border-color: rgba(18, 128, 92, 0.52);
           border-radius: 20px;
           background:
-            linear-gradient(135deg, rgba(18, 128, 92, 0.22), rgba(33, 118, 255, 0.14)),
+            linear-gradient(135deg, rgba(18, 128, 92, 0.28), rgba(33, 118, 255, 0.18)),
             #ffffff;
+          box-shadow: 0 10px 24px rgba(18, 128, 92, 0.12);
         }
 
         .field-profit-target::before {
@@ -857,7 +866,8 @@
 
         label,
         .rate-head span:first-child {
-          font-size: 0.54rem;
+          font-size: 0.6rem;
+          font-weight: 950;
           color: var(--text);
         }
 
@@ -882,19 +892,23 @@
         .live-value,
         .rate-value {
           max-width: 56%;
-          padding: 2px 5px;
-          border-radius: 6px;
-          font-size: 0.55rem;
+          padding: 3px 6px;
+          border-radius: 8px;
+          font-size: 0.58rem;
+          font-weight: 950;
+          background: rgba(33, 118, 255, 0.2);
         }
 
         input {
-          height: 28px;
-          padding: 0 24px 0 6px;
-          border-color: var(--line);
+          height: 30px;
+          padding: 0 24px 0 8px;
+          border-color: #b9c5d5;
           border-radius: 12px;
-          background: #f8fbff;
+          background: #ffffff;
           color: var(--text);
-          font-size: 0.68rem;
+          font-size: 0.74rem;
+          font-weight: 850;
+          box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset;
         }
 
         .unit {
@@ -913,30 +927,33 @@
         input[type="range"]::-webkit-slider-runnable-track {
           height: 13px;
           border-radius: 999px;
-          background: rgba(71, 85, 105, 0.3);
+          background: linear-gradient(180deg, #d6dee9, #b9c5d5);
+          box-shadow: inset 0 1px 2px rgba(17, 24, 39, 0.18);
         }
 
         input[type="range"]::-webkit-slider-thumb {
           -webkit-appearance: none;
           appearance: none;
-          width: 26px;
-          height: 26px;
-          margin-top: -6.5px;
+          width: 29px;
+          height: 29px;
+          margin-top: -8px;
           border: 3px solid #ffffff;
           border-radius: 50%;
           background: currentColor;
-          box-shadow: 0 4px 12px rgba(17, 24, 39, 0.28);
+          box-shadow:
+            0 6px 16px rgba(17, 24, 39, 0.32),
+            0 1px 0 rgba(255, 255, 255, 0.9) inset;
         }
 
         input[type="range"]::-moz-range-track {
           height: 13px;
           border-radius: 999px;
-          background: rgba(71, 85, 105, 0.3);
+          background: linear-gradient(180deg, #d6dee9, #b9c5d5);
         }
 
         input[type="range"]::-moz-range-thumb {
-          width: 24px;
-          height: 24px;
+          width: 27px;
+          height: 27px;
           border: 3px solid #ffffff;
           border-radius: 50%;
           background: currentColor;
@@ -960,8 +977,10 @@
         }
 
         .rate-control {
-          margin-top: 3px;
-          padding: 4px;
+          margin-top: 5px;
+          padding: 6px;
+          border-color: rgba(71, 85, 105, 0.32);
+          background: #ffffff;
           border-radius: 14px;
         }
 
@@ -978,20 +997,22 @@
 
         .result {
           padding: 12px 12px 10px;
-          background: linear-gradient(135deg, rgba(18, 128, 92, 0.2), rgba(33, 118, 255, 0.16));
+          background: linear-gradient(135deg, rgba(18, 128, 92, 0.28), rgba(33, 118, 255, 0.2));
           border-bottom-color: var(--line);
         }
 
         .result-label {
           margin-bottom: 3px;
-          color: var(--muted);
-          font-size: 0.7rem;
+          color: #334155;
+          font-size: 0.76rem;
+          font-weight: 950;
           letter-spacing: 0;
         }
 
         .result-value {
-          font-size: clamp(2.35rem, 10.5vw, 3.25rem);
+          font-size: clamp(2.6rem, 11.2vw, 3.55rem);
           font-weight: 950;
+          letter-spacing: -1px;
           line-height: 0.92;
           white-space: nowrap;
         }
@@ -1003,20 +1024,25 @@
         }
 
         .metric {
-          padding: 6px;
-          background: rgba(255, 255, 255, 0.94);
-          border-color: rgba(71, 85, 105, 0.3);
+          padding: 7px;
+          background: #ffffff;
+          border-color: rgba(71, 85, 105, 0.36);
           border-radius: 14px;
+          box-shadow: 0 8px 18px rgba(24, 38, 62, 0.08);
         }
 
         .metric span,
         .target-summary span {
-          font-size: 0.54rem;
+          color: #334155;
+          font-size: 0.58rem;
+          font-weight: 900;
         }
 
         .metric strong,
         .target-summary strong {
-          font-size: 0.7rem;
+          font-size: 0.86rem;
+          font-weight: 950;
+          letter-spacing: -1px;
           white-space: nowrap;
         }
 
@@ -1043,11 +1069,12 @@
 
         .target-summary {
           gap: 4px;
-          margin-top: 5px;
-          padding: 7px;
-          background: rgba(18, 128, 92, 0.16);
-          border-color: rgba(18, 128, 92, 0.4);
+          margin-top: 7px;
+          padding: 9px;
+          background: rgba(18, 128, 92, 0.22);
+          border-color: rgba(18, 128, 92, 0.48);
           border-radius: 16px;
+          box-shadow: 0 10px 24px rgba(18, 128, 92, 0.1);
         }
 
         #targetStatus {
@@ -1059,8 +1086,8 @@
           display: flex;
           flex-direction: column;
           min-height: 0;
-          padding: 6px;
-          background: #fbfcff;
+          padding: 7px;
+          background: #ffffff;
         }
 
         .chart-title {
@@ -1439,13 +1466,18 @@
           drawGuideTriangle(ctx, pointX, originY, "up");
           drawGuideTriangle(ctx, originX, pointY, "right");
 
+          ctx.shadowColor = "rgba(17, 24, 39, 0.28)";
+          ctx.shadowBlur = 10;
+          ctx.shadowOffsetY = 3;
           ctx.fillStyle = "#ffffff";
-          ctx.strokeStyle = "#111827";
-          ctx.lineWidth = 3;
           ctx.beginPath();
-          ctx.arc(pointX, pointY, 5.5, 0, Math.PI * 2);
+          ctx.arc(pointX, pointY, getChartVisuals().currentPointOuterRadius, 0, Math.PI * 2);
           ctx.fill();
-          ctx.stroke();
+          ctx.shadowColor = "transparent";
+          ctx.fillStyle = "#111827";
+          ctx.beginPath();
+          ctx.arc(pointX, pointY, getChartVisuals().currentPointInnerRadius, 0, Math.PI * 2);
+          ctx.fill();
 
           drawChartBadge(
             ctx,
@@ -1507,16 +1539,18 @@
         const mobile = isMobileChart();
 
         return {
-          legendFontSize: 7,
-          legendBoxSize: 12,
+          legendFontSize: mobile ? 16 : 9,
+          legendBoxSize: mobile ? 16 : 12,
           axisTitleSize: mobile ? 9 : 8,
           axisTickSize: mobile ? 11 : 7,
-          badgeFontSize: mobile ? 12 : 7,
-          badgeHeight: mobile ? 24 : 15,
-          badgePaddingX: mobile ? 8 : 4,
+          badgeFontSize: mobile ? 13 : 8,
+          badgeHeight: mobile ? 28 : 17,
+          badgePaddingX: mobile ? 9 : 5,
           badgePaddingY: mobile ? 4 : 2,
-          mainLineWidth: mobile ? 2.9 : 2,
-          guideLineWidth: mobile ? 2.8 : 2.4
+          mainLineWidth: mobile ? 3.3 : 2.2,
+          guideLineWidth: mobile ? 3 : 2.5,
+          currentPointOuterRadius: mobile ? 9 : 7,
+          currentPointInnerRadius: mobile ? 5.2 : 4
         };
       }
 
@@ -1556,14 +1590,18 @@
         const badgeX = chartArea ? clamp(x, chartArea.left + 6, chartArea.right - width - 6) : x;
         const badgeY = chartArea ? clamp(y, chartArea.top + 6, chartArea.bottom - height - 6) : y;
 
-        ctx.fillStyle = "rgba(255, 255, 255, 0.96)";
+        ctx.shadowColor = "rgba(17, 24, 39, 0.16)";
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetY = 3;
+        ctx.fillStyle = "rgba(255, 255, 255, 0.98)";
         ctx.strokeStyle = color;
-        ctx.lineWidth = 1.5;
+        ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.roundRect(badgeX, badgeY, width, height, radius);
         ctx.fill();
         ctx.stroke();
 
+        ctx.shadowColor = "transparent";
         ctx.fillStyle = color;
         ctx.fillText(text, badgeX + paddingX, badgeY + height - paddingY - 2);
         ctx.restore();
@@ -2091,8 +2129,8 @@
                 borderColor: "#12805c",
                 backgroundColor: "rgba(18, 128, 92, 0.2)",
                 borderWidth: chartVisuals.mainLineWidth,
-                pointRadius: 2,
-                pointHoverRadius: 4,
+                pointRadius: 2.5,
+                pointHoverRadius: 5,
                 fill: false,
                 tension: 0
               },
@@ -2124,10 +2162,11 @@
                 label: "現在値",
                 data: projection.currentPoint,
                 type: "scatter",
-                borderColor: "#111827",
+                borderColor: "#ffffff",
                 backgroundColor: "#111827",
-                pointRadius: 5,
-                pointHoverRadius: 7
+                borderWidth: 3,
+                pointRadius: chartVisuals.currentPointOuterRadius,
+                pointHoverRadius: chartVisuals.currentPointOuterRadius + 2
               },
               {
                 label: getTargetPointLabel(),
@@ -2195,7 +2234,7 @@
                   callback: (value) => formatCompactYen(value)
                 },
                 grid: {
-                  color: "rgba(71, 85, 105, 0.24)"
+                  color: "rgba(71, 85, 105, 0.18)"
                 }
               },
               y: {
@@ -2212,7 +2251,7 @@
                   callback: (value) => formatCompactYen(value)
                 },
                 grid: {
-                  color: "rgba(71, 85, 105, 0.26)"
+                  color: "rgba(71, 85, 105, 0.18)"
                 }
               }
             }

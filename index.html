@@ -185,9 +185,33 @@
       .mode-button.is-active,
       .solve-button.is-active,
       .support-button.is-active {
-        border-color: var(--success);
-        background: rgba(18, 128, 92, 0.18);
-        color: var(--success);
+        border-color: #111827;
+        background: #111827;
+        color: #ffffff;
+        box-shadow: 0 10px 24px rgba(17, 24, 39, 0.18);
+      }
+
+      .reset-button {
+        width: 100%;
+        min-height: 36px;
+        margin: 0 0 12px;
+        border: 1px solid #b8c3d2;
+        border-radius: 8px;
+        background: #ffffff;
+        color: #111827;
+        font: inherit;
+        font-size: 0.82rem;
+        font-weight: 900;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(24, 38, 62, 0.08);
+      }
+
+      .reset-button:hover,
+      .reset-button:focus-visible {
+        border-color: #111827;
+        background: #111827;
+        color: #ffffff;
+        outline: none;
       }
 
       .field {
@@ -433,11 +457,21 @@
         overflow-wrap: anywhere;
       }
 
+      .result-value .yen-unit {
+        font-size: 0.5em;
+        line-height: 1;
+        vertical-align: baseline;
+      }
+
       .breakdown {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 10px;
         margin-top: 12px;
+      }
+
+      .breakdown.is-hidden {
+        display: none;
       }
 
       .metric {
@@ -583,9 +617,9 @@
       .graph-button.is-active,
       .graph-button:hover,
       .graph-button:focus-visible {
-        border-color: var(--primary);
-        background: rgba(33, 118, 255, 0.18);
-        color: var(--primary-dark);
+        border-color: #111827;
+        background: #111827;
+        color: #ffffff;
         outline: none;
       }
 
@@ -751,10 +785,17 @@
         .mode-button.is-active,
         .solve-button.is-active,
         .support-button.is-active {
-          border-color: var(--success);
-          background: rgba(18, 128, 92, 0.18);
-          color: var(--success);
-          box-shadow: 0 8px 18px rgba(18, 128, 92, 0.22);
+          border-color: #111827;
+          background: #111827;
+          color: #ffffff;
+          box-shadow: 0 8px 18px rgba(17, 24, 39, 0.24);
+        }
+
+        .reset-button {
+          min-height: 24px;
+          margin-bottom: 6px;
+          border-radius: 12px;
+          font-size: 0.54rem;
         }
 
         .toggle-caption {
@@ -1112,6 +1153,8 @@
               </button>
             </div>
 
+            <button class="reset-button" id="resetButton" type="button">クリア（Reset）</button>
+
             <div class="field field-days">
               <div class="field-head">
                 <label for="targetDays">対象日数</label>
@@ -1333,6 +1376,7 @@
       const resultLabelOutput = document.getElementById("resultLabel");
       const grossProfitOutput = document.getElementById("grossProfit");
       const baseProfitOutput = document.getElementById("baseProfit");
+      const breakdownPanel = document.querySelector(".breakdown");
       const kitchenBonusMetric = document.getElementById("kitchenBonusMetric");
       const kitchenBonusOutput = document.getElementById("kitchenBonus");
       const wasteImpactBar = document.getElementById("wasteImpactBar");
@@ -1345,6 +1389,7 @@
       const chartCanvas = document.getElementById("profitChart");
       const chartClickHint = document.getElementById("chartClickHint");
       const supportToggle = document.getElementById("supportToggle");
+      const resetButton = document.getElementById("resetButton");
       const graphRangeButtons = document.querySelectorAll(".graph-button");
       const modeButtons = document.querySelectorAll(".mode-button");
       const solveButtons = document.querySelectorAll(".solve-button");
@@ -1426,6 +1471,10 @@
         return `${yenFormatter.format(Math.round(value))}円`;
       }
 
+      function formatMainYen(value) {
+        return `${yenFormatter.format(Math.round(value))}<span class="yen-unit">円</span>`;
+      }
+
       function formatCompactYen(value) {
         const rounded = Math.round(value);
         const sign = rounded < 0 ? "-" : "";
@@ -1460,7 +1509,7 @@
         return {
           legendFontSize: 7,
           legendBoxSize: 12,
-          axisTitleSize: mobile ? 12 : 8,
+          axisTitleSize: mobile ? 9 : 8,
           axisTickSize: mobile ? 11 : 7,
           badgeFontSize: mobile ? 12 : 7,
           badgeHeight: mobile ? 24 : 15,
@@ -1539,6 +1588,10 @@
       function updateKitchenSupportVisibility() {
         const isKitchenMode = currentMode === "kitchen";
         kitchenBonusMetric.classList.toggle("is-hidden", !isKitchenMode);
+      }
+
+      function updateReverseResultLayout(isReverseMode) {
+        breakdownPanel.classList.toggle("is-hidden", isReverseMode);
       }
 
       function getTargetInputLabel() {
@@ -1837,18 +1890,15 @@
       function updateOutputs(result) {
         const isReverseMode = isReverseSolveMode();
         const isSalesMode = solveMode === "sales";
-        const resultLabel = isReverseMode
-          ? solveMode === "gross"
-            ? "荒利益高逆算"
-            : "PL逆算"
-          : "PL";
+        const resultLabel = isReverseMode ? "必要な作成高" : "PL";
         const displayedResult = (isReverseMode ? result.requiredSales : result.pl) * result.targetDays;
         const hasTargetDays = hasInputValue(targetDaysInput);
 
         resultLabelOutput.textContent = resultLabel;
-        grossProfitOutput.textContent = isReverseMode ? "" : formatYen(displayedResult);
+        grossProfitOutput.innerHTML = formatMainYen(displayedResult);
         baseProfitOutput.textContent = formatYen(result.grossProfitBase * result.targetDays);
         updateKitchenSupportVisibility();
+        updateReverseResultLayout(isReverseMode);
 
         if (currentMode === "kitchen") {
           document.getElementById("kitchenBonusLabel").textContent =
@@ -1877,15 +1927,15 @@
         wasteRateLive.textContent = formatPercent(wasteRateSlider.value);
         discountRateLive.textContent = formatPercent(discountRateSlider.value);
         targetSummaryLabel.textContent = isSalesMode ? "対象日数分の販売高" : "対象日数分の必要な作成高";
-        requiredSalesOutput.textContent = isSalesMode
-          ? formatYen(result.salesTarget * result.targetDays)
-          : formatYen(result.requiredSales * result.targetDays);
+        requiredSalesOutput.textContent = !hasTargetDays
+          ? "-"
+          : isSalesMode
+            ? formatYen(result.salesTarget * result.targetDays)
+            : formatYen(result.requiredSales * result.targetDays);
         targetStatus.textContent = !hasTargetDays
           ? "未入力"
           : isReverseMode
-            ? solveMode === "gross"
-              ? "荒利益高逆算"
-              : "PL逆算"
+            ? "作成高"
             : isSalesMode
               ? "実績計算"
               : "自動計算";
@@ -1894,16 +1944,13 @@
       function updateBlankOutputs() {
         const isReverseMode = isReverseSolveMode();
         const isSalesMode = solveMode === "sales";
-        const resultLabel = isReverseMode
-          ? solveMode === "gross"
-            ? "荒利益高逆算"
-            : "PL逆算"
-          : "PL";
+        const resultLabel = isReverseMode ? "必要な作成高" : "PL";
 
         resultLabelOutput.textContent = resultLabel;
-        grossProfitOutput.textContent = isReverseMode ? "" : "-";
+        grossProfitOutput.textContent = "-";
         baseProfitOutput.textContent = "-";
         updateKitchenSupportVisibility();
+        updateReverseResultLayout(isReverseMode);
 
         if (currentMode === "kitchen") {
           document.getElementById("kitchenBonusLabel").textContent = "厨房支援";
@@ -2154,13 +2201,7 @@
               y: {
                 beginAtZero: true,
                 title: {
-                  display: true,
-                  text: "PL（円）",
-                  font: {
-                    size: chartVisuals.axisTitleSize,
-                    weight: "900"
-                  },
-                  color: "#111827"
+                  display: false
                 },
                 ticks: {
                   font: {
@@ -2225,6 +2266,19 @@
         syncNumberToSlider(numberInput, sliderInput);
       }
 
+      function clearCalculatorInputs() {
+        clearInputPair(salesTargetInput, salesTargetSlider);
+        clearInputPair(wasteAmountInput, wasteAmountSlider);
+        clearInputPair(discountAmountInput, discountAmountSlider);
+        clearInputPair(profitTargetInput, profitTargetSlider);
+        targetDaysInput.value = "";
+        wasteRateSlider.value = "0";
+        discountRateSlider.value = "0";
+        kitchenSupportRate = null;
+        supportButtons.forEach((button) => button.classList.remove("is-active"));
+        refreshCalculator();
+      }
+
       [
         [salesTargetInput, salesTargetSlider],
         [wasteAmountInput, wasteAmountSlider],
@@ -2267,6 +2321,8 @@
       });
 
       targetDaysInput.addEventListener("input", refreshCalculator);
+
+      resetButton.addEventListener("click", clearCalculatorInputs);
 
       wasteRateSlider.addEventListener("input", () => {
         syncRateToAmount(wasteRateSlider, wasteAmountInput, wasteAmountSlider);
